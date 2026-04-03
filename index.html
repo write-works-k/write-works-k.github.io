@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>キザキ ケイ | 小説家</title>
+  <style>
+    /* ===== 基本設定 ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #faf8f5;
+      color: #2c2c2c;
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", "游明朝", Georgia, serif;
+      line-height: 1.8;
+    }
+
+    /* ===== ヘッダー ===== */
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      border-bottom: 1px solid #d6cfc4;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      letter-spacing: 0.15em;
+      font-weight: normal;
+      color: #1a1a1a;
+    }
+
+    header p.tagline {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      color: #888;
+      letter-spacing: 0.1em;
+    }
+
+    /* ===== ハンバーガーボタン ===== */
+    .hamburger {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      z-index: 200;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 1px;
+      background-color: #2c2c2c;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* ===== オーバーレイ（背景暗幕） ===== */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.3);
+      z-index: 100;
+    }
+
+    .overlay.open {
+      display: block;
+    }
+
+    /* ===== サイドバー ===== */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100%;
+      background-color: #faf8f5;
+      border-right: 1px solid #d6cfc4;
+      z-index: 150;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      padding: 80px 32px 40px;
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .sidebar nav a {
+      color: #2c2c2c;
+      text-decoration: none;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+    }
+
+    .sidebar nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== メインコンテンツ ===== */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: normal;
+      letter-spacing: 0.2em;
+      color: #888;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    /* ===== 作品カード ===== */
+    .book-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .book-card {
+      display: flex;
+      gap: 36px;
+      align-items: flex-start;
+      padding: 48px 0;
+      border-bottom: 1px solid #d6cfc4;
+    }
+
+    .book-card:first-child {
+      padding-top: 0;
+    }
+
+    .book-card:last-child {
+      border-bottom: none;
+    }
+
+    /* ===== 新刊カード ===== */
+    .book-card.new-arrival {
+      background-color: #fff;
+      border: 1px solid #c8b89a;
+      border-radius: 2px;
+      padding: 32px;
+      position: relative;
+      margin-bottom: 48px;
+    }
+
+    .new-arrival-badge {
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      background-color: #2c2c2c;
+      color: #faf8f5;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      padding: 4px 14px;
+    }
+
+    .book-cover {
+      flex-shrink: 0;
+      width: 160px;
+    }
+
+    .book-cover img {
+      width: 160px;
+      height: 224px;
+      object-fit: cover;
+      box-shadow: 4px 4px 16px rgba(0,0,0,0.15);
+      display: block;
+    }
+
+    /* 画像がない場合のプレースホルダー */
+    .book-cover .placeholder,
+    .book-cover-pair .placeholder {
+      width: 160px;
+      height: 224px;
+      background-color: #e8e2d9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: #aaa;
+      text-align: center;
+      box-shadow: 4px 4px 16px rgba(0,0,0,0.15);
+    }
+
+    .book-info {
+      flex: 1;
+    }
+
+    .book-info h2 {
+      font-size: 1.5rem;
+      font-weight: normal;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .book-info .publisher {
+      font-size: 0.82rem;
+      color: #999;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+
+    .book-info .synopsis {
+      font-size: 0.93rem;
+      color: #444;
+      line-height: 1.9;
+      margin-bottom: 20px;
+    }
+
+    /* ===== 上下巻：縦2枚並び ===== */
+    .book-cover-pair {
+      flex-shrink: 0;
+      width: 160px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .book-cover-pair .volume-label {
+      font-size: 0.72rem;
+      color: #999;
+      letter-spacing: 0.1em;
+      margin-bottom: 2px;
+    }
+
+    /* ===== 購入リンク群 ===== */
+    .buy-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .buy-link {
+      display: inline-block;
+      padding: 8px 20px;
+      border: 1px solid #2c2c2c;
+      color: #2c2c2c;
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      transition: background-color 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .buy-link:hover {
+      background-color: #2c2c2c;
+      color: #faf8f5;
+    }
+
+    /* ===== 2作品まとめグループ ===== */
+    .book-group {
+      border-bottom: 1px solid #d6cfc4;
+      padding-bottom: 0;
+    }
+
+    .book-group:last-child {
+      border-bottom: none;
+    }
+
+    .book-group .book-card {
+      border-bottom: 1px dashed #d6cfc4;
+    }
+
+    .book-group .book-card:last-child {
+      border-bottom: none;
+    }
+
+    /* ===== 新刊：上下巻レイアウト ===== */
+    .new-arrival-volumes {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .volume-series-title {
+      font-size: 1.5rem;
+      font-weight: normal;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      margin-top: 0;
+    }
+
+    .volume-series-title + .publisher {
+      font-size: 0.82rem;
+      color: #999;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+
+    .volume-row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      padding: 20px 0;
+      border-top: 1px dashed #d6cfc4;
+    }
+
+    .volume-row .book-cover {
+      flex-shrink: 0;
+      width: 120px;
+    }
+
+    .volume-row .book-cover .placeholder {
+      width: 120px;
+      height: 168px;
+    }
+
+    .volume-row .book-cover img {
+      width: 120px;
+      height: 168px;
+    }
+
+    /* ===== フッター ===== */
+    footer {
+      text-align: center;
+      padding: 32px 20px;
+      border-top: 1px solid #d6cfc4;
+      font-size: 0.8rem;
+      color: #aaa;
+      letter-spacing: 0.08em;
+    }
+
+    /* ===== レスポンシブ（スマホ対応） ===== */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      .book-card {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .book-info {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダー：名前とひとこと -->
+  <header>
+    <h1>キザキ ケイ</h1>
+    <p class="tagline">小説家 / Novelist</p>
+  </header>
+
+  <!-- ハンバーガーボタン -->
+  <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- 背景暗幕 -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- サイドバー -->
+  <div class="sidebar" id="sidebar">
+    <nav>
+      <a href="index.html">著作</a>
+      <a href="profile.html">プロフィール</a>
+      <a href="contact.html">お問い合わせ</a>
+    </nav>
+  </div>
+
+  <!-- メインコンテンツ：著作一覧 -->
+  <main>
+    <p class="section-title">— 著作一覧 —</p>
+
+    <div class="book-list">
+
+      <!-- 作品1（新刊・上下巻） -->
+      <div class="book-card new-arrival new-arrival-volumes">
+        <span class="new-arrival-badge">新　刊</span>
+
+        <!-- 上巻 -->
+        <div class="volume-row">
+          <div class="book-cover">
+            <p class="volume-label">上巻</p>
+            <!-- <img src="zenryaku1.jpg" alt="前略、これから世界滅ぼします 上巻 表紙"> -->
+          </div>
+          <div class="book-info">
+            <h2 class="volume-series-title">前略、これから世界滅ぼします</h2>
+            <p class="publisher">ヴィオラ文庫 / 2025年</p>
+            <p class="synopsis">恋を知らない冷徹な闇の精霊×ひたむきな不幸系魔術師<br>
+――これは、二人が世界を滅ぼすまでの物語。<br>
+なにもかもが上手くいかず、勢い余って“闇の精霊”を喚び出すことにした魔術師ヴェナ。<br>
+召喚された闇の精霊「クロ」は、世界を滅ぼす協力をする代わりにヴェナに名と魔力、そして命を要求する。<br>
+要求を呑み、彼にクロと名づけたヴェナだったが、魔力をもらうためだと彼に突然キスをされて……。<br>
+「おまえの魔力は美味いから好きだ」<br>
+何度も口づける彼の不器用な優しさに、ヴェナの心は次第に絆されていき――？</p>
+            <div class="buy-links">
+              <a href="https://piccoma.com/web/product/196683" target="_blank" class="buy-link">ピッコマ</a>
+              <a href="https://www.cmoa.jp/title/1101467990/" target="_blank" class="buy-link">シーモア</a>
+              <a href="https://amzn.to/4ds7wjA" target="_blank" class="buy-link">Amazon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 下巻 -->
+        <div class="volume-row">
+          <div class="book-cover">
+            <p class="volume-label">下巻</p>
+            <img src="zenryaku2.jpg" alt="前略、これから世界滅ぼします 下巻 表紙">
+          </div>
+          <div class="book-info">
+            <p class="synopsis">1、2巻どちらも加筆修正＆書き下ろしたっぷりあります！<br>
+1巻：ヴェナを看病するクロのほろ甘書き下ろし番外編「やさしい王様」収録<br>
+2巻：投稿サイト掲載番外編「精霊の性事情」「闇の精霊子育て奮闘記」収録、一万字超の本編後ストーリー「光精霊危機一髪」収録、その他加筆多数
+            </p>
+            <div class="buy-links">
+<a href="https://piccoma.com/web/product/196683" target="_blank" class="buy-link">ピッコマ</a>
+              <a href="https://www.cmoa.jp/title/1101467990/" target="_blank" class="buy-link">シーモア</a>
+              <a href="https://amzn.to/4sMdb8T" target="_blank" class="buy-link">Amazon</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 作品2・3（2段） -->
+      <div class="book-group">
+        <div class="book-card">
+          <div class="book-cover">
+<img src="karatou.jpg" alt="辛党のオメガ 表紙">
+          <div class="book-info">
+            <h2>辛党のオメガ</h2>
+            <p class="publisher">角川ルビー文庫:D / 2020年</p>
+            <p class="synopsis">───俺のフェロモンは辛い匂いがするらしい。<br>
+オメガの<ruby>唐沢<rt>からさわ</rt></ruby>は、変わった香りのフェロモンを持つために誰にもオメガと気づかれず、ベータのふりをして高校生活を楽しんでいる。<br>
+ある日の帰り道、アルファである<ruby>奄美<rt>あまみ</rt></ruby>が「運命の番」に片想いをしていることを知る。しかも番相手はそのことに気がついておらず、じっくりと親交を深めている最中なのだという。唐沢は奄美の片思い相手を想像し、なぜか胸がざわつき───。<br>
+シーモア購入限定 書き下ろし「花嵐」<br>
+各配信サイト共通書き下ろし「番のオメガ」、投稿サイト掲載番外編「大学生のオメガ」（大学生編）収録<br>
+現在投稿サイトでは通読困難な「木嶋視点」を本編の順番通りに収録
+            </p>
+            <div class="buy-links">
+              <a href="https://www.cmoa.jp/title/1101264028/" target="_blank" class="buy-link">シーモア</a>
+              <a href="https://amzn.to/4dYszue" target="_blank" class="buy-link">Amazon</a>
+              <a href="https://piccoma.com/web/product/105307" target="_blank" class="buy-link">ピッコマ</a>
+            </div>
+          </div>
+        </div>
+        <div class="book-card">
+          <div class="book-cover">
+<img src="mobdanshi.jpg" alt="乙女ゲームのモブ男子はイケメン騎士様と恋するヒマがない！ 表紙">
+          <div class="book-info">
+            <h2>乙女ゲームのモブ男子はイケメン騎士様と恋するヒマがない！</h2>
+            <p class="publisher">角川ルビー文庫:D  / 2021年</p>
+            <p class="synopsis">キューブ男爵家の次男・シリスは前世にプレイした乙女ゲームとそっくりの世界に“モブ”として転生してしまう。<br>
+主人公に平和で穏やかなルートに進んでイケメンと幸せになってほしいシリスは、陰ながら彼女の恋のサポートをしようと決意するが、入学早々に攻略対象の一人である騎士見習い・エメラルドから告白されてしまい───！？<br>
+シーモア購入限定 書き下ろし「今日も明日も」<br>
+            </p>
+            <div class="buy-links">
+              <a href="https://www.cmoa.jp/title/1101304033/" target="_blank" class="buy-link">シーモア</a>
+              <a href="https://amzn.to/4dqBYe3" target="_blank" class="buy-link">Amazon</a>
+              <a href="https://piccoma.com/web/product/105162" target="_blank" class="buy-link">ピッコマ</a>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 作品4・5（2段） -->
+      <div class="book-group">
+        <div class="book-card">
+          <div class="book-cover">
+<img src="akuyakukei.jpg" alt="【急募】異世界で溺愛された時の対処法♂BLアンソロジー 表紙">
+          <div class="book-info">
+            <h2>悪役系伯爵に転生したのでダイエットがんばったら執着従者に溺愛されました</h2>
+            <p class="publisher">くろふねピクシブ / 2024年</p>
+            <p class="synopsis">
+ぽっちゃり悪役令息、愛する従者のため大変身！<br>
+物語の悪役のようなデブ伯爵に転生してしまったマリアンは、一念発起しダイエットに邁進する。一方、忠実な従者テオドールは、マリアンの急激な変化に困惑しきりで───。<br>
+「【急募】異世界で溺愛された時の対処法♂BLアンソロジー」内の1タイトルとして、短編小説をコミカライズ！<br>
+ムーンライトノベルズの名作短編原作を揃えた、珠玉のアンソロジーです。
+</p>
+            <div class="buy-links">
+              <a href="https://amzn.to/4sKCqIN" target="_blank" class="buy-link">Amazon</a>
+              <a href="https://www.cmoa.jp/title/306738/" target="_blank" class="buy-link">シーモア</a>
+              <a href="https://piccoma.com/web/product/174549" target="_blank" class="buy-link">ピッコマ</a>
+            </div>
+          </div>
+        </div>
+
+    </div><!-- /.book-list -->
+  </main>
+
+  <!-- フッター -->
+  <footer>
+    <p>&copy; 2026 Kei Kizaki. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const sidebar   = document.getElementById("sidebar");
+    const overlay   = document.getElementById("overlay");
+
+    function openMenu() {
+      hamburger.classList.add("open");
+      sidebar.classList.add("open");
+      overlay.classList.add("open");
+    }
+
+    function closeMenu() {
+      hamburger.classList.remove("open");
+      sidebar.classList.remove("open");
+      overlay.classList.remove("open");
+    }
+
+    hamburger.addEventListener("click", function() {
+      sidebar.classList.contains("open") ? closeMenu() : openMenu();
+    });
+
+    overlay.addEventListener("click", closeMenu);
+  </script>
+
+</body>
+</html>
