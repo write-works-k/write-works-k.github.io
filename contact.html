@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>著者について | キザキケイ著作紹介サイト</title>
+  <style>
+    /* ===== 基本設定 ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #faf8f5;
+      color: #2c2c2c;
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", "游明朝", Georgia, serif;
+      line-height: 1.8;
+    }
+
+    /* ===== ヘッダー ===== */
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      border-bottom: 1px solid #d6cfc4;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      letter-spacing: 0.15em;
+      font-weight: normal;
+      color: #1a1a1a;
+    }
+
+    header p.tagline {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      color: #888;
+      letter-spacing: 0.1em;
+    }
+
+    /* ===== ハンバーガーボタン ===== */
+    .hamburger {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      z-index: 200;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 1px;
+      background-color: #2c2c2c;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* ===== オーバーレイ ===== */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.3);
+      z-index: 100;
+    }
+
+    .overlay.open {
+      display: block;
+    }
+
+    /* ===== サイドバー ===== */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100%;
+      background-color: #faf8f5;
+      border-right: 1px solid #d6cfc4;
+      z-index: 150;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      padding: 80px 32px 40px;
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .sidebar nav a {
+      color: #2c2c2c;
+      text-decoration: none;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+    }
+
+    .sidebar nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== メインコンテンツ ===== */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 60px 20px 80px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: normal;
+      letter-spacing: 0.2em;
+      color: #888;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    /* ===== 著者プロフィールレイアウト ===== */
+    .profile-layout {
+      display: flex;
+      gap: 48px;
+      align-items: flex-start;
+    }
+
+    /* 左：画像エリア */
+    .profile-image {
+      flex-shrink: 0;
+      width: 200px;
+    }
+
+    .profile-image img {
+      width: 200px;
+      display: block;
+      box-shadow: 4px 4px 16px rgba(0,0,0,0.1);
+    }
+
+    /* 画像がない場合のプレースホルダー */
+    .profile-image .placeholder {
+      width: 200px;
+      height: 300px;
+      background-color: #e8e2d9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: #aaa;
+      text-align: center;
+      box-shadow: 4px 4px 16px rgba(0,0,0,0.1);
+    }
+
+    /* 右：情報エリア */
+    .profile-info {
+      flex: 1;
+    }
+
+    .profile-info table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .profile-info th,
+    .profile-info td {
+      padding: 12px 0;
+      border-bottom: 1px solid #e8e2d9;
+      vertical-align: top;
+      font-size: 0.93rem;
+      font-weight: normal;
+      text-align: left;
+    }
+
+    .profile-info th {
+      width: 8em;
+      color: #999;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .profile-info td {
+      color: #2c2c2c;
+    }
+
+    .profile-info td a {
+      color: #2c2c2c;
+      text-decoration: underline;
+    }
+
+    .profile-info td a:hover {
+      color: #888;
+    }
+
+    .profile-info tr:last-child th,
+    .profile-info tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ===== お手紙エリア ===== */
+    .letter-note {
+      margin-top: 40px;
+      padding: 20px 24px;
+      border: 1px solid #d6cfc4;
+      font-size: 0.88rem;
+      color: #555;
+      line-height: 2;
+    }
+
+    .letter-note p.label {
+      font-size: 0.78rem;
+      color: #999;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    /* ===== フッター ===== */
+    footer {
+      text-align: center;
+      padding: 32px 20px;
+      border-top: 1px solid #d6cfc4;
+      font-size: 0.8rem;
+      color: #aaa;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 16px;
+    }
+
+    .footer-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-nav a:hover {
+      color: #2c2c2c;
+      text-decoration: underline;
+    }
+
+    /* ===== レスポンシブ ===== */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      .profile-layout {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .profile-info {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header>
+    <h1>キザキ ケイ</h1>
+    <p class="tagline">小説家 / Novelist</p>
+  </header>
+
+  <!-- ハンバーガーボタン -->
+  <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- 背景暗幕 -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- サイドバー -->
+  <div class="sidebar" id="sidebar">
+    <nav>
+      <a href="index.html">出版書籍</a>
+      <a href="contact.html">著者について</a>
+    </nav>
+  </div>
+
+  <!-- メインコンテンツ -->
+  <main>
+    <p class="section-title">— 著者について —</p>
+
+    <div class="profile-layout">
+
+      <!-- 左：画像 -->
+      <div class="profile-image">
+<img src="images/fl.png">
+</div>
+
+      <!-- 右：情報 -->
+      <div class="profile-info">
+        <table>
+          <tr>
+            <th>著者名</th>
+            <td>キザキ ケイ / Kei Kizaki</td>
+          </tr>
+          <tr>
+            <th>作品投稿先</th>
+            <td>
+              <!-- URLと表示名を変更してください -->
+              <a href="https://xmypage.syosetu.com/x3824bc/" target="_blank">ムーンライトノベルズ</a><br>
+<a href="https://www.alphapolis.co.jp/author/detail/793116329" target="_blank">アルファポリス</a>
+            </td>
+          </tr>
+          <tr>
+            <th>SNS</th>
+            <td>
+              <!-- URLと表示名を変更してください。複数ある場合は<br>で改行できます -->
+              <a href="https://x.com/kkei_moon" target="_blank">X（旧Twitter）</a>
+            </td>
+          </tr>
+          <tr>
+            <th>メール</th>
+            <td>
+              <!-- メールアドレスを変更してください -->
+              <a href="mailto:a015k03@gmail.com">a015k03@gmail.com</a>
+            </td>
+          </tr>
+        </table>
+
+        <!-- お手紙 -->
+        <div class="letter-note">
+          <p class="label">— 応援のお手紙 —</p>
+          <p>各書籍の出版社へ「〇〇編集部気付 キザキケイ」宛でお送りください。</p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer>
+    <nav class="footer-nav">
+      <a href="index.html">出版書籍</a>
+      <a href="">著作</a>
+    </nav>
+    <p>&copy; 2026 Kei Kizaki. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const sidebar   = document.getElementById("sidebar");
+    const overlay   = document.getElementById("overlay");
+
+    function openMenu() {
+      hamburger.classList.add("open");
+      sidebar.classList.add("open");
+      overlay.classList.add("open");
+    }
+
+    function closeMenu() {
+      hamburger.classList.remove("open");
+      sidebar.classList.remove("open");
+      overlay.classList.remove("open");
+    }
+
+    hamburger.addEventListener("click", function() {
+      sidebar.classList.contains("open") ? closeMenu() : openMenu();
+    });
+
+    overlay.addEventListener("click", closeMenu);
+  </script>
+
+</body>
+</html>
