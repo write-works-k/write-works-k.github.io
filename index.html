@@ -359,6 +359,25 @@
       letter-spacing: 0.08em;
     }
 
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 16px;
+    }
+
+    .footer-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-nav a:hover {
+      color: #2c2c2c;
+      text-decoration: underline;
+    }
+
     /* ===== レスポンシブ（スマホ対応） ===== */
     @media (max-width: 600px) {
       header h1 {
@@ -371,6 +390,15 @@
       }
 
       .book-info {
+        text-align: center;
+      }
+
+      .volume-row {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .volume-row .book-info {
         text-align: center;
       }
     }
@@ -539,6 +567,11 @@
 
   <!-- フッター -->
   <footer>
+    <nav class="footer-nav">
+      <a href="index.html">著作</a>
+      <a href="profile.html">プロフィール</a>
+      <a href="contact.html">お問い合わせ</a>
+    </nav>
     <p>&copy; 2026 Kei Kizaki. All rights reserved.</p>
   </footer>
 
