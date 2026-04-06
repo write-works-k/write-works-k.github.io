@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>作品を探す | キザキケイ著作紹介サイト</title>
+  <style>
+    /* ===== 基本設定 ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #faf8f5;
+      color: #2c2c2c;
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", "游明朝", Georgia, serif;
+      line-height: 1.8;
+    }
+
+    /* ===== ヘッダー ===== */
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      border-bottom: 1px solid #d6cfc4;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      letter-spacing: 0.15em;
+      font-weight: normal;
+      color: #1a1a1a;
+    }
+
+    header p.tagline {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      color: #888;
+      letter-spacing: 0.1em;
+    }
+
+    /* ===== ハンバーガーボタン ===== */
+    .hamburger {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      z-index: 200;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 1px;
+      background-color: #2c2c2c;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* ===== オーバーレイ ===== */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.3);
+      z-index: 100;
+    }
+
+    .overlay.open {
+      display: block;
+    }
+
+    /* ===== サイドバー ===== */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100%;
+      background-color: #faf8f5;
+      border-right: 1px solid #d6cfc4;
+      z-index: 150;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      padding: 80px 32px 40px;
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .sidebar nav a {
+      color: #2c2c2c;
+      text-decoration: none;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+    }
+
+    .sidebar nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== メインコンテンツ ===== */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: normal;
+      letter-spacing: 0.2em;
+      color: #888;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      position: relative;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .section-header .section-title {
+      margin-bottom: 0;
+    }
+
+    .help-btn {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: 1px solid #d6cfc4;
+      color: #aaa;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .help-btn:hover {
+      color: #2c2c2c;
+      border-color: #2c2c2c;
+    }
+
+    /* ===== ヘルプダイアログ ===== */
+    .dialog-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.4);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dialog-overlay.open {
+      display: flex;
+    }
+
+    .dialog {
+      background-color: #faf8f5;
+      border: 1px solid #d6cfc4;
+      padding: 36px 40px;
+      max-width: 420px;
+      width: 90%;
+      position: relative;
+    }
+
+    .dialog h2 {
+      font-size: 1rem;
+      font-weight: normal;
+      letter-spacing: 0.15em;
+      color: #888;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .dialog p {
+      font-size: 0.88rem;
+      color: #555;
+      line-height: 2;
+      margin-bottom: 12px;
+    }
+
+    .dialog-close {
+      display: block;
+      margin: 24px auto 0;
+      background: none;
+      border: 1px solid #2c2c2c;
+      color: #2c2c2c;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      padding: 7px 28px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .dialog-close:hover {
+      background-color: #2c2c2c;
+      color: #faf8f5;
+    }
+
+    /* ===== タグフィルター ===== */
+    .tag-filter-area {
+      margin-bottom: 12px;
+    }
+
+    .tag-group {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px 12px;
+      padding: 12px 16px;
+      border: 1px solid #d6cfc4;
+      margin-bottom: 8px;
+    }
+
+    .tag-group-label {
+      font-size: 0.72rem;
+      color: #bbb;
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+      margin-right: 4px;
+    }
+
+    .filter-tag-wrap {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .filter-tag-wrap input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 13px;
+      height: 13px;
+      border: 1px solid #bbb;
+      background-color: #faf8f5;
+      cursor: pointer;
+      flex-shrink: 0;
+      position: relative;
+      transition: background-color 0.15s, border-color 0.15s;
+    }
+
+    .filter-tag-wrap input[type="checkbox"]:checked {
+      background-color: #2c2c2c;
+      border-color: #2c2c2c;
+    }
+
+    .filter-tag-wrap input[type="checkbox"]:checked::after {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 0px;
+      width: 4px;
+      height: 7px;
+      border: 1.5px solid #faf8f5;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
+
+    .filter-tag-label {
+      font-size: 0.85rem;
+      color: #888;
+      letter-spacing: 0.05em;
+      transition: color 0.15s;
+    }
+
+    .filter-tag-label::before {
+      content: "#";
+    }
+
+    .filter-tag-wrap:hover .filter-tag-label {
+      color: #2c2c2c;
+    }
+
+    .filter-tag-wrap input:checked + .filter-tag-label {
+      color: #2c2c2c;
+      font-weight: bold;
+    }
+
+    .filter-reset {
+      display: block;
+      margin-left: auto;
+      background: none;
+      border: none;
+      color: #ccc;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 4px 0;
+      transition: color 0.2s;
+      user-select: none;
+    }
+
+    .filter-reset:hover {
+      color: #888;
+    }
+
+    /* 件数表示 */
+    .result-count {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #aaa;
+      margin-bottom: 32px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== 作品リスト ===== */
+    .works-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .work-item {
+      display: flex;
+      flex-direction: column; /* 折りたたみ要素を下に配置するためcolumnに変更 */
+      padding: 14px 0;
+      border-bottom: 1px solid #e8e2d9;
+    }
+
+    .work-item:last-child {
+      border-bottom: none;
+    }
+
+    .work-item.hidden {
+      display: none;
+    }
+
+    /* タイトルと通常タグを横並びにする行 */
+    .work-main-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .work-title a {
+      color: #2c2c2c;
+      text-decoration: none;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+    }
+
+    .work-title a:hover {
+      text-decoration: underline;
+    }
+
+    .work-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .work-tag {
+      font-size: 0.72rem;
+      color: #aaa;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .work-tag::before {
+      content: "#";
+    }
+
+    .work-tag.matched {
+      color: #2c2c2c;
+      font-weight: bold;
+    }
+
+    /* ===== ネタバレ要素のスタイル ===== */
+    .spoiler-container {
+      margin-top: 8px;
+    }
+
+    .spoiler-toggle {
+      font-size: 0.7rem;
+      color: #a67c7c;
+      cursor: pointer;
+      border: 1px solid #eee1e1;
+      padding: 2px 10px;
+      display: inline-block;
+      background: #fffafa;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .spoiler-toggle:hover {
+      background-color: #fceeee;
+      border-color: #d1b8b8;
+    }
+
+    .spoiler-content {
+      display: none;
+      margin-top: 8px;
+      padding: 12px;
+      background-color: #fdfcfb;
+      border: 1px dashed #d6cfc4;
+    }
+
+    .spoiler-content.open {
+      display: block;
+    }
+
+    .spoiler-tag {
+      color: #888;
+      margin-right: 12px;
+      font-size: 0.75rem;
+    }
+
+    .spoiler-tag::before {
+      content: "⚠ ";
+    }
+
+    .no-results {
+      display: none;
+      text-align: center;
+      padding: 48px 0;
+      color: #aaa;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ===== フッター ===== */
+    footer {
+      text-align: center;
+      padding: 32px 20px;
+      border-top: 1px solid #d6cfc4;
+      font-size: 0.8rem;
+      color: #aaa;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 16px;
+    }
+
+    .footer-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-nav a:hover {
+      color: #2c2c2c;
+      text-decoration: underline;
+    }
+
+    /* ===== レスポンシブ ===== */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      .work-main-row {
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .work-tags {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>キザキ ケイ</h1>
+    <p class="tagline">小説家 / Novelist</p>
+  </header>
+
+  <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="sidebar" id="sidebar">
+    <nav>
+      <a href="index.html">出版書籍</a>
+      <a href="works.html">作品を探す</a>
+      <a href="contact.html">著者について</a>
+    </nav>
+  </div>
+
+  <main>
+    <div class="section-header">
+      <p class="section-title">— 作品を探す —</p>
+      <button class="help-btn" id="help-btn">このページの使い方</button>
+    </div>
+
+    <div class="dialog-overlay" id="dialog-overlay">
+      <div class="dialog">
+        <h2>— このページの使い方 —</h2>
+        <p>タグをクリックすると、そのタグがついた作品だけが表示されます。</p>
+        <p>タグは複数選択できます。選択したタグをすべて持つ作品が表示されます。</p>
+        <p>「ネタバレ注意」タグで検索した場合、該当するネタバレ要素を含む作品が表示されます。</p>
+        <button class="dialog-close" id="dialog-close">閉じる</button>
+      </div>
+    </div>
+
+    <div class="tag-filter-area">
+      <div class="tag-group">
+        <span class="tag-group-label">世界観</span>
+        <label class="filter-tag-wrap"><input type="checkbox" data-tag="ファンタジー"><span class="filter-tag-label">ファンタジー</span></label>
+        <label class="filter-tag-wrap"><input type="checkbox" data-tag="現代"><span class="filter-tag-label">現代</span></label>
+        <label class="filter-tag-wrap"><input type="checkbox" data-tag="異世界転移"><span class="filter-tag-label">異世界転移</span></label>
+        <label class="filter-tag-wrap"><input type="checkbox" data-tag="異世界転生"><span class="filter-tag-label">異世界転生</span></label>
+      </div>
+      <div class="tag-group">
+        <span class="tag-group-label">話の長さ</span>
+        <label class="filter-tag-wrap"><input type="checkbox" data-tag="短編"><span class="filter-tag-label">短編</span></label>
+        <label class="filter-tag-wrap"><input type="checkbox" data-tag="長編"><span class="filter-tag-label">長編</span></label>
+      </div>
+      <div class="tag-group">
+        <span class="tag-group-label">その他</span>
+        <label class="filter-tag-wrap"><input type="checkbox" data-tag="オメガバース"><span class="filter-tag-label">オメガバース</span></label>
+      </div>
+      <div class="tag-group">
+        <span class="tag-group-label">ネタバレ注意</span>
+        <label class="filter-tag-wrap"><input type="checkbox" data-tag="人間が死ぬ"><span class="filter-tag-label">人間が死ぬ</span></label>
+        <label class="filter-tag-wrap"><input type="checkbox" data-tag="嘔吐表現あり"><span class="filter-tag-label">嘔吐表現あり</span></label>
+      </div>
+      <button class="filter-reset" id="filter-reset">リセット</button>
+    </div>
+
+    <p class="result-count" id="result-count"></p>
+
+    <div class="works-list" id="works-list">
+
+      <div class="work-item" data-tags="ファンタジー 長編 異世界転生 人間が死ぬ">
+        <div class="work-main-row">
+          <span class="work-title"><a href="#" target="_blank">作品タイトル1</a></span>
+          <span class="work-tags">
+            <span class="work-tag">ファンタジー</span>
+            <span class="work-tag">長編</span>
+            <span class="work-tag">異世界転生</span>
+          </span>
+        </div>
+        <div class="spoiler-container">
+          <div class="spoiler-toggle">＋ ネタバレ要素を確認する</div>
+          <div class="spoiler-content">
+            <span class="work-tag spoiler-tag matched-target">人間が死ぬ</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="現代 短編 オメガバース 嘔吐表現あり">
+        <div class="work-main-row">
+          <span class="work-title"><a href="#" target="_blank">作品タイトル2</a></span>
+          <span class="work-tags">
+            <span class="work-tag">現代</span>
+            <span class="work-tag">短編</span>
+            <span class="work-tag">オメガバース</span>
+          </span>
+        </div>
+        <div class="spoiler-container">
+          <div class="spoiler-toggle">＋ ネタバレ要素を確認する</div>
+          <div class="spoiler-content">
+            <span class="work-tag spoiler-tag matched-target">嘔吐表現あり</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="ファンタジー 短編 異世界転移">
+        <div class="work-main-row">
+          <span class="work-title"><a href="#" target="_blank">作品タイトル3</a></span>
+          <span class="work-tags">
+            <span class="work-tag">ファンタジー</span>
+            <span class="work-tag">短編</span>
+            <span class="work-tag">異世界転移</span>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="no-results" id="no-results">該当する作品がありません</p>
+  </main>
+
+  <footer>
+    <nav class="footer-nav">
+      <a href="index.html">出版書籍</a>
+      <a href="works.html">作品を探す</a>
+      <a href="contact.html">著者について</a>
+    </nav>
+    <p>&copy; 2026 Kei Kizaki. All rights reserved.</p>
+  </footer>
+
+  <script>
+    /* ===== ハンバーガーメニュー ===== */
+    const hamburger = document.getElementById("hamburger");
+    const sidebar   = document.getElementById("sidebar");
+    const overlay   = document.getElementById("overlay");
+
+    function closeMenu() {
+      hamburger.classList.remove("open");
+      sidebar.classList.remove("open");
+      overlay.classList.remove("open");
+    }
+
+    hamburger.addEventListener("click", function() {
+      const isOpen = sidebar.classList.contains("open");
+      hamburger.classList.toggle("open", !isOpen);
+      sidebar.classList.toggle("open", !isOpen);
+      overlay.classList.toggle("open", !isOpen);
+    });
+
+    overlay.addEventListener("click", closeMenu);
+
+    /* ===== ヘルプダイアログ ===== */
+    const helpBtn       = document.getElementById("help-btn");
+    const dialogOverlay = document.getElementById("dialog-overlay");
+    const dialogClose   = document.getElementById("dialog-close");
+
+    helpBtn.addEventListener("click", () => dialogOverlay.classList.add("open"));
+    dialogClose.addEventListener("click", () => dialogOverlay.classList.remove("open"));
+    dialogOverlay.addEventListener("click", (e) => {
+      if (e.target === dialogOverlay) dialogOverlay.classList.remove("open");
+    });
+
+    /* ===== タグフィルター ===== */
+    const checkboxes = document.querySelectorAll(".filter-tag-wrap input[type='checkbox']");
+    const resetBtn   = document.getElementById("filter-reset");
+    const workItems  = document.querySelectorAll(".work-item");
+    const noResults  = document.getElementById("no-results");
+    const countEl    = document.getElementById("result-count");
+
+    function applyFilter() {
+      const activeTags = new Set();
+      checkboxes.forEach(cb => { if (cb.checked) activeTags.add(cb.dataset.tag); });
+
+      let visibleCount = 0;
+
+      workItems.forEach(item => {
+        const itemTags = item.dataset.tags ? item.dataset.tags.split(" ") : [];
+        const matches = activeTags.size === 0 || [...activeTags].every(tag => itemTags.includes(tag));
+
+        if (matches) {
+          item.classList.remove("hidden");
+          visibleCount++;
+        } else {
+          item.classList.add("hidden");
+        }
+
+        // 全てのタグ（通常・ネタバレ両方）のハイライト処理
+        item.querySelectorAll(".work-tag").forEach(tagEl => {
+          const tagText = tagEl.textContent.replace("#", "").replace("⚠ ", "");
+          tagEl.classList.toggle("matched", activeTags.has(tagText));
+        });
+      });
+
+      noResults.style.display = visibleCount === 0 ? "block" : "none";
+      countEl.textContent = activeTags.size === 0 ? `全${workItems.length}作品` : `${visibleCount} / ${workItems.length}作品`;
+    }
+
+    checkboxes.forEach(cb => cb.addEventListener("change", applyFilter));
+    resetBtn.addEventListener("click", () => {
+      checkboxes.forEach(cb => cb.checked = false);
+      applyFilter();
+    });
+
+    /* ===== ネタバレ開閉の制御 ===== */
+    document.querySelectorAll('.spoiler-toggle').forEach(button => {
+      button.addEventListener('click', () => {
+        const content = button.nextElementSibling;
+        const isOpen = content.classList.contains('open');
+        content.classList.toggle('open');
+        button.textContent = isOpen ? "＋ ネタバレ要素を確認する" : "－ ネタバレ要素を閉じる";
+      });
+    });
+
+    // 初期表示
+    applyFilter();
+  </script>
+
+</body>
+</html>
