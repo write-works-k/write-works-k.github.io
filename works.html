@@ -556,18 +556,7 @@
         transform: none;
       }
 
-      /* タググループのラベルを一行上に（ブロック表示） */
-      .tag-group {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .tag-group-label {
-        display: block;
-        margin-bottom: 4px;
-      }
-
-      /* ネタバレグループは列方向のまま維持 */
+      /* ネタバレグループは列方向 */
       .tag-group-spoiler {
         flex-direction: column;
       }
@@ -619,7 +608,7 @@
     </div>
 
 <!-- テンプレ
-<label class="filter-tag-wrap"><input type="checkbox" data-tag=""><span class="filter-tag-label"></span></label>
+<label class="filter-tag-wrap"><input type="checkbox" data-tag="#"><span class="filter-tag-label">#</span></label>
 -->
 
     <div class="tag-filter-area">
@@ -638,10 +627,13 @@
       </div>
       <div class="tag-group">
         <span class="tag-group-label">カップリング</span>
+<label class="filter-tag-wrap"><input type="checkbox" data-tag="学生"><span class="filter-tag-label">学生</span></label>
+<label class="filter-tag-wrap"><input type="checkbox" data-tag="社会人"><span class="filter-tag-label">社会人</span></label>
 <label class="filter-tag-wrap"><input type="checkbox" data-tag="平凡受け"><span class="filter-tag-label">平凡受け</span></label>
 <label class="filter-tag-wrap"><input type="checkbox" data-tag="年上受け"><span class="filter-tag-label">年上受け</span></label>
 <label class="filter-tag-wrap"><input type="checkbox" data-tag="人外受け"><span class="filter-tag-label">人外受け</span></label>
-<label class="filter-tag-wrap"><input type="checkbox" data-tag="おバカ受け"><span class="filter-tag-label">天然受け</span></label>
+<label class="filter-tag-wrap"><input type="checkbox" data-tag="天然受け"><span class="filter-tag-label">天然受け</span></label>
+<label class="filter-tag-wrap"><input type="checkbox" data-tag="美人受け"><span class="filter-tag-label">美人受け</span></label>
 <label class="filter-tag-wrap"><input type="checkbox" data-tag="溺愛攻め"><span class="filter-tag-label">溺愛攻め</span></label>
 <label class="filter-tag-wrap"><input type="checkbox" data-tag="人外攻め"><span class="filter-tag-label">人外攻め</span></label>
 <label class="filter-tag-wrap"><input type="checkbox" data-tag="無自覚攻め"><span class="filter-tag-label">無自覚攻め</span></label>
@@ -653,7 +645,10 @@
 <label class="filter-tag-wrap"><input type="checkbox" data-tag="切ない"><span class="filter-tag-label">切ない</span></label>
 <label class="filter-tag-wrap"><input type="checkbox" data-tag="片想い"><span class="filter-tag-label">片想い</span></label>
 <label class="filter-tag-wrap"><input type="checkbox" data-tag="すれ違い"><span class="filter-tag-label">すれ違い</span></label>
+<label class="filter-tag-wrap"><input type="checkbox" data-tag="ラブコメ"><span class="filter-tag-label">ラブコメ</span></label>
+<label class="filter-tag-wrap"><input type="checkbox" data-tag="攻め視点"><span class="filter-tag-label">攻め視点</span></label>
 <label class="filter-tag-wrap"><input type="checkbox" data-tag="触手"><span class="filter-tag-label">触手</span></label>
+<label class="filter-tag-wrap"><input type="checkbox" data-tag="神様"><span class="filter-tag-label">神様</span></label>
       </div>
       <div class="tag-group tag-group-spoiler">
         <div class="spoiler-filter-header" id="spoiler-filter-toggle">
@@ -670,7 +665,7 @@
           <label class="filter-tag-wrap"><input type="checkbox" data-tag="ペットが死ぬ"><span class="filter-tag-label">ペットが死ぬ</span></label>
           <label class="filter-tag-wrap"><input type="checkbox" data-tag="戦闘で人が死ぬ（モブ）"><span class="filter-tag-label">戦闘で人が死ぬ（モブ）</span></label>
           <label class="filter-tag-wrap"><input type="checkbox" data-tag="流血表現"><span class="filter-tag-label">流血表現</span></label>
-          <label class="filter-tag-wrap"><input type="checkbox" data-tag="嘔吐表現"><span class="filter-tag-label">嘔吐表現</span></label>
+<label class="filter-tag-wrap"><input type="checkbox" data-tag="三角関係"><span class="filter-tag-label">三角関係</span></label>
         </div>
       </div>
       <button class="filter-reset" id="filter-reset">リセット</button>
@@ -680,36 +675,252 @@
 
     <div class="works-list" id="works-list">
 
-<!-- テンプレ　要注意タグなし
+<!-- 
+
+テンプレ　要注意タグなし
+
       <div class="work-item" data-tags="ファンタジー 短編 異世界転移">
         <div class="work-main-row">
           <span class="work-title"><a href="#" target="_blank">作品タイトル3</a></span>
           <span class="work-tags">
-            <span class="work-tag">ファンタジー</span>
-            <span class="work-tag">短編</span>
-            <span class="work-tag">異世界転移</span>
+<span class="work-tag">ファンタジー</span>
+<span class="work-tag">短編</span>
+<span class="work-tag">異世界転移</span>
           </span>
         </div>
       </div>
 
 要注意タグあり
+
       <div class="work-item" data-tags="ファンタジー 短編 切ない">
         <div class="work-main-row">
           <span class="work-title"><a href="#" target="_blank">作品タイトル1</a></span>
           <span class="work-tags">
-            <span class="work-tag">ファンタジー</span>
-            <span class="work-tag">短編</span>
+<span class="work-tag">現代</span>
+<span class="work-tag">短編</span>
           </span>
         </div>
         <div class="spoiler-container">
-          <div class="spoiler-toggle">＋ ネタバレ・要注意タグを確認する</div>
+          <div class="spoiler-toggle">＋ ネタバレ要素を確認する</div>
           <div class="spoiler-content">
-            <span class="work-tag spoiler-tag matched-target">人間が死ぬ</span>
+<span class="work-tag spoiler-tag matched-target">死ぬ</span>
           </div>
         </div>
       </div>
 -->
 
+      <div class="work-item" data-tags="ファンタジー 短編 年上受け 溺愛攻め ハッピーエンド 戦闘で人が死ぬ（モブ） 流血表現">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/10388414" target="_blank">僕のかわいい愛し子が、まさか勇者じゃないなんて</a></span>
+          <span class="work-tags">
+<span class="work-tag">ファンタジー</span>
+<span class="work-tag">短編</span>
+<span class="work-tag">年上受け</span>
+<span class="work-tag">溺愛攻め</span>
+<span class="work-tag">ハッピーエンド</span>
+          </span>
+        </div>
+        <div class="spoiler-container">
+          <div class="spoiler-toggle">＋ ネタバレ要素を確認する</div>
+          <div class="spoiler-content">
+<span class="work-tag spoiler-tag matched-target">戦闘で人が死ぬ（モブ）</span>
+<span class="work-tag spoiler-tag matched-target">流血表現</span>
+<span class="work-tag spoiler-tag matched-target">人外受け</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="ファンタジー 短編 人外受け 溺愛攻め 人外攻め ハッピーエンド">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/9731666" target="_blank">托卵ドラゴンの生存戦略</a></span>
+          <span class="work-tags">
+<span class="work-tag">ファンタジー</span>
+<span class="work-tag">短編</span>
+<span class="work-tag">人外受け</span>
+<span class="work-tag">溺愛攻め</span>
+<span class="work-tag">人外攻め</span>
+<span class="work-tag">ハッピーエンド</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="ファンタジー 現代 短編 学生 溺愛攻め 美人受け ハッピーエンド 性描写なし 主要人物が死ぬ（転生あり） 流血表現">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/9188848" target="_blank">妖精騎士の執着が重い</a></span>
+          <span class="work-tags">
+          <span class="work-tag">ファンタジー</span>
+          <span class="work-tag">現代</span>
+          <span class="work-tag">短編</span>
+          <span class="work-tag">学生</span>
+          <span class="work-tag">溺愛攻め</span>
+          <span class="work-tag">美人受け</span>
+          <span class="work-tag">ハッピーエンド</span>
+          <span class="work-tag">性描写なし</span>
+          </span>
+        </div>
+        <div class="spoiler-container">
+          <div class="spoiler-toggle">＋ ネタバレ要素を確認する</div>
+          <div class="spoiler-content">
+            <span class="work-tag spoiler-tag matched-target">主要人物が死ぬ（転生あり）</span>
+            <span class="work-tag spoiler-tag matched-target">流血表現</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="ファンタジー 短編 年上受け 溺愛攻め ハッピーエンド すれ違い">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/8927035" target="_blank">優秀な幼馴染をパーティから追放したら求婚された</a></span>
+          <span class="work-tags">
+          <span class="work-tag">ファンタジー</span>
+          <span class="work-tag">短編</span>
+          <span class="work-tag">年上受け</span>
+          <span class="work-tag">溺愛攻め</span>
+          <span class="work-tag">ハッピーエンド</span>
+          <span class="work-tag">すれ違い</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="ファンタジー 短編 美人受け ハッピーエンド すれ違い 神様 ラブコメ">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/8455391" target="_blank">嫌いなアイツを倒す唯一の方法</a></span>
+          <span class="work-tags">
+          <span class="work-tag">ファンタジー</span>
+          <span class="work-tag">短編</span>
+          <span class="work-tag">美人受け</span>
+          <span class="work-tag">ハッピーエンド</span>
+          <span class="work-tag">すれ違い</span>
+          <span class="work-tag">神様</span>
+          <span class="work-tag">ラブコメ</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="ファンタジー 現代 神様 短編 社会人 平凡受け 年上受け 溺愛攻め 性描写なし 異世界転移 異世界転生 無自覚攻め">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/8261279" target="_blank">異世界課転移係の憂鬱</a></span>
+          <span class="work-tags">
+          <span class="work-tag">ファンタジー</span>
+          <span class="work-tag">現代</span>
+          <span class="work-tag">異世界転移</span>
+          <span class="work-tag">異世界転生</span>
+          <span class="work-tag">短編</span>
+          <span class="work-tag">社会人</span>
+          <span class="work-tag">平凡受け</span>
+          <span class="work-tag">年上受け</span>
+          <span class="work-tag">溺愛攻め</span>
+          <span class="work-tag">無自覚攻め</span>
+          <span class="work-tag">性描写なし</span>
+          <span class="work-tag">神様</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="ファンタジー 短編 人外受け 美人受け 無自覚攻め ハッピーエンド 神様 ラブコメ">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/7653485" target="_blank">神を殺す男</a></span>
+          <span class="work-tags">
+          <span class="work-tag">ファンタジー</span>
+          <span class="work-tag">短編</span>
+          <span class="work-tag">人外受け</span>
+          <span class="work-tag">美人受け</span>
+          <span class="work-tag">無自覚攻め</span>
+          <span class="work-tag">ハッピーエンド</span>
+          <span class="work-tag">神様</span>
+          <span class="work-tag">ラブコメ</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="ファンタジー 異世界転生 短編 年上受け 溺愛攻め ハッピーエンド">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://novel18.syosetu.com/n5552hx/" target="_blank">悪役系伯爵に転生したのでダイエットがんばったら執着従者に溺愛されました【コミカライズ】</a></span>
+          <span class="work-tags">
+          <span class="work-tag">ファンタジー</span>
+          <span class="work-tag">異世界転生</span>
+          <span class="work-tag">短編</span>
+          <span class="work-tag">年上受け</span>
+          <span class="work-tag">溺愛攻め</span>
+          <span class="work-tag">ハッピーエンド</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="ファンタジー オメガバース 短編 人外受け 人外攻め 無自覚攻め ハッピーエンド すれ違い">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/5861241" target="_blank">極彩色の黒</a></span>
+          <span class="work-tags">
+          <span class="work-tag">ファンタジー</span>
+          <span class="work-tag">オメガバース</span>
+          <span class="work-tag">短編</span>
+          <span class="work-tag">人外受け</span>
+          <span class="work-tag">人外攻め</span>
+          <span class="work-tag">無自覚攻め</span>
+          <span class="work-tag">ハッピーエンド</span>
+          <span class="work-tag">すれ違い</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="ファンタジー 短編 年上受け 溺愛攻め ハッピーエンド">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/5808729" target="_blank">むくつけき後宮の花</a></span>
+          <span class="work-tags">
+          <span class="work-tag">ファンタジー</span>
+          <span class="work-tag">短編</span>
+          <span class="work-tag">年上受け</span>
+          <span class="work-tag">溺愛攻め</span>
+          <span class="work-tag">ハッピーエンド</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="ファンタジー 短編 人外受け 美人受け ハッピーエンド 神様">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/5808693" target="_blank">オアシスの神は真心を受け取る</a></span>
+          <span class="work-tags">
+          <span class="work-tag">ファンタジー</span>
+          <span class="work-tag">短編</span>
+          <span class="work-tag">人外受け</span>
+          <span class="work-tag">美人受け</span>
+          <span class="work-tag">ハッピーエンド</span>
+          <span class="work-tag">神様</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="現代 短編 学生 平凡受け 天然受け 溺愛攻め 性描写なし ハッピーエンド">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/5808662" target="_blank">心臓病の特効薬</a></span>
+          <span class="work-tags">
+          <span class="work-tag">現代</span>
+          <span class="work-tag">短編</span>
+          <span class="work-tag">学生</span>
+          <span class="work-tag">平凡受け</span>
+          <span class="work-tag">天然受け</span>
+          <span class="work-tag">溺愛攻め</span>
+          <span class="work-tag">性描写なし</span>
+          <span class="work-tag">ハッピーエンド</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="現代 短編 学生 天然受け 溺愛攻め ハッピーエンド すれ違い ラブコメ 攻め視点">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/5808636" target="_blank">バカな彼氏のしつけ方</a></span>
+          <span class="work-tags">
+          <span class="work-tag">現代</span>
+          <span class="work-tag">短編</span>
+          <span class="work-tag">学生</span>
+          <span class="work-tag">天然受け</span>
+          <span class="work-tag">溺愛攻め</span>
+          <span class="work-tag">ハッピーエンド</span>
+          <span class="work-tag">すれ違い</span>
+          <span class="work-tag">ラブコメ</span>
+          <span class="work-tag">攻め視点</span>
+          </span>
+        </div>
+      </div>
 
       <div class="work-item" data-tags="ファンタジー 短編 天然受け 溺愛攻め 切ない">
         <div class="work-main-row">
@@ -724,7 +935,7 @@
         </div>
       </div>
 
-      <div class="work-item" data-tags="ファンタジー 短編 人外受け 溺愛攻め 人外攻め メリーバッドエンド 主要人物が死ぬ（転生あり）">
+      <div class="work-item" data-tags="ファンタジー 短編 人外受け 溺愛攻め 人外攻め メリーバッドエンド 主要人物が死ぬ（転生あり） 三角関係">
         <div class="work-main-row">
           <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/5808748" target="_blank">天使が恋を失う日</a></span>
           <span class="work-tags">
@@ -740,6 +951,7 @@
           <div class="spoiler-content">
             <span class="work-tag spoiler-tag matched-target">メリーバッドエンド</span>
 <span class="work-tag spoiler-tag matched-target">主要人物が死ぬ（転生あり）</span>
+ <span class="work-tag spoiler-tag matched-target">三角関係</span>
           </div>
         </div>
       </div>
@@ -764,6 +976,45 @@
           </div>
         </div>
       </div>
+      <div class="work-item" data-tags="ファンタジー 短編 溺愛攻め 人外攻め ハッピーエンド 流血表現">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/5808744" target="_blank">月に魅入られ</a></span>
+          <span class="work-tags">
+<span class="work-tag">ファンタジー</span>
+<span class="work-tag">短編</span>
+<span class="work-tag">溺愛攻め</span>
+<span class="work-tag">人外攻め</span>
+<span class="work-tag">ハッピーエンド</span>
+          </span>
+        </div>
+        <div class="spoiler-container">
+          <div class="spoiler-toggle">＋ ネタバレ要素を確認する</div>
+          <div class="spoiler-content">
+            <span class="work-tag spoiler-tag matched-target">流血表現</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-item" data-tags="ファンタジー 現代 短編 学生 切ない すれ違い 主要人物が死ぬ（転生あり）">
+        <div class="work-main-row">
+          <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/5808764" target="_blank">胡蝶之夢</a></span>
+          <span class="work-tags">
+<span class="work-tag">ファンタジー</span>
+<span class="work-tag">現代</span>
+<span class="work-tag">短編</span>
+<span class="work-tag">学生</span>
+<span class="work-tag">切ない</span>
+<span class="work-tag">すれ違い</span>
+          </span>
+        </div>
+        <div class="spoiler-container">
+          <div class="spoiler-toggle">＋ ネタバレ要素を確認する</div>
+          <div class="spoiler-content">
+<span class="work-tag spoiler-tag matched-target">主要人物が死ぬ（転生あり）</span>
+          </div>
+        </div>
+      </div>
+
 
     <p class="no-results" id="no-results">該当する作品がありません</p>
   </main>
