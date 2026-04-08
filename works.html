@@ -65,7 +65,6 @@
   cursor: pointer;
   z-index: 200;
   
-  /* --- ここから追加 --- */
   background-color: rgba(250, 248, 245, 0.8); /* 背景色を80%の不透明度で敷く */
   backdrop-filter: blur(8px); /* 背後をぼかす（ガラス質感） */
   -webkit-backdrop-filter: blur(8px); /* Safari用 */
@@ -421,7 +420,8 @@
 
     .work-title a {
       color: #2c2c2c;
-      text-decoration: none;
+      text-decoration: underline; 
+      text-underline-offset: 3px; 
       font-size: 0.95rem;
       letter-spacing: 0.03em;
     }
@@ -439,7 +439,7 @@
 
     .work-tag {
       font-size: 0.72rem;
-      color: #aaa;
+      color: #8c6450;
       letter-spacing: 0.05em;
       white-space: nowrap;
     }
@@ -507,6 +507,33 @@
       font-size: 0.9rem;
       letter-spacing: 0.1em;
     }
+
+/* 作品ごとのひとことエリア */
+.work-comment {
+  font-size: 0.82rem;
+  color: #555;
+  margin: 12px 0 8px 1em; /* 周囲の余白 */
+  line-height: 1.6;
+  
+  /* --- 点線の囲み設定 --- */
+  border: 1px dotted #d6cfc4; /* 薄い茶系の点線 */
+  padding: 10px 12px;         /* 枠線と文字の間の余白 */
+  border-radius: 6px;         /* 角を少し丸くする */
+  background-color: rgba(255, 255, 255, 0.3); /* ほんの少し背景を白くして文字を浮かせる */
+}
+
+/* 紹介文の中のリンク設定 */
+.work-comment a {
+  color: #8b7e6a; /* サイトの雰囲気に馴染む濃いめのベージュ・茶系 */
+  text-decoration: underline; /* リンクだと分かりやすくするために下線を引く */
+  transition: color 0.2s;
+}
+
+/* ホバー（マウスを乗せたとき）の色 */
+.work-comment a:hover {
+  color: #2c2c2c; /* マウスを乗せると少し濃くする */
+  text-decoration: none; /* ホバーで下線を消すとおしゃれ */
+}
 
     /* ===== フッター ===== */
     footer {
@@ -687,6 +714,7 @@
 <span class="work-tag">短編</span>
 <span class="work-tag">異世界転移</span>
           </span>
+<p class="work-comment">紹介文</p>
         </div>
       </div>
 
@@ -706,6 +734,7 @@
 <span class="work-tag spoiler-tag matched-target">死ぬ</span>
           </div>
         </div>
+<p class="work-comment">紹介文</p>
       </div>
 -->
 
@@ -728,6 +757,7 @@
 <span class="work-tag spoiler-tag matched-target">人外受け</span>
           </div>
         </div>
+<p class="work-comment">拾われた人間の子ども（成長後）勇者並みに強い青年 × 勇者を求める転生記憶持ち</p>
       </div>
 
       <div class="work-item" data-tags="ファンタジー 短編 人外受け 溺愛攻め 人外攻め ハッピーエンド">
@@ -742,6 +772,7 @@
 <span class="work-tag">ハッピーエンド</span>
           </span>
         </div>
+<p class="work-comment">強くて大きい弟ドラゴン × 弱くて小さくて小賢しい兄ドラゴン　人化なし</p>
       </div>
 
       <div class="work-item" data-tags="ファンタジー 現代 短編 学生 溺愛攻め 美人受け ハッピーエンド 性描写なし 主要人物が死ぬ（転生あり） 流血表現">
@@ -765,6 +796,7 @@
             <span class="work-tag spoiler-tag matched-target">流血表現</span>
           </div>
         </div>
+<p class="work-comment">前世の記憶持ち元妖精騎士の堅物高校生 × 前世の記憶なし美形高校生</p>
       </div>
 
       <div class="work-item" data-tags="ファンタジー 短編 年上受け 溺愛攻め ハッピーエンド すれ違い">
@@ -779,6 +811,7 @@
           <span class="work-tag">すれ違い</span>
           </span>
         </div>
+<p class="work-comment">素直になれない元泣き虫のツンギレ年下攻め × 仲間思いの包容力平凡受け</p>
       </div>
 
       <div class="work-item" data-tags="ファンタジー 短編 美人受け ハッピーエンド すれ違い 神様 ラブコメ">
@@ -794,6 +827,7 @@
           <span class="work-tag">ラブコメ</span>
           </span>
         </div>
+<p class="work-comment">食わせ者な年上神 × 素直になれない若神　北欧神話風</p>
       </div>
 
       <div class="work-item" data-tags="ファンタジー 現代 神様 短編 社会人 平凡受け 年上受け 溺愛攻め 性描写なし 異世界転移 異世界転生 無自覚攻め">
@@ -814,6 +848,8 @@
           <span class="work-tag">神様</span>
           </span>
         </div>
+<p class="work-comment">前世勇者の年下転生者 × 訳あり前世持ち　なんちゃってリーマン設定<br>
+長編になりました→<a href="https://www.alphapolis.co.jp/novel/793116329/54899012" target="_blank">異世界課の『元』魔王</a></p>
       </div>
 
       <div class="work-item" data-tags="ファンタジー 短編 人外受け 美人受け 無自覚攻め ハッピーエンド 神様 ラブコメ">
@@ -830,11 +866,12 @@
           <span class="work-tag">ラブコメ</span>
           </span>
         </div>
+<p class="work-comment">連戦連敗だが諦めない男 × 少年の姿の無敗の戦神　古代文明時代のお話</p>
       </div>
 
       <div class="work-item" data-tags="ファンタジー 異世界転生 短編 年上受け 溺愛攻め ハッピーエンド">
         <div class="work-main-row">
-          <span class="work-title"><a href="https://novel18.syosetu.com/n5552hx/" target="_blank">悪役系伯爵に転生したのでダイエットがんばったら執着従者に溺愛されました【コミカライズ】</a></span>
+          <span class="work-title"><a href="https://novel18.syosetu.com/n5552hx/" target="_blank">悪役系伯爵に転生したのでダイエットがんばったら執着従者に溺愛されました</a></span>
           <span class="work-tags">
           <span class="work-tag">ファンタジー</span>
           <span class="work-tag">異世界転生</span>
@@ -844,6 +881,9 @@
           <span class="work-tag">ハッピーエンド</span>
           </span>
         </div>
+<p class="work-comment">一途な隻眼従者 × ダイエットを決意した伯爵<br>
+【コミカライズ作品】マンガになりました！
+</p>
       </div>
 
       <div class="work-item" data-tags="ファンタジー オメガバース 短編 人外受け 人外攻め 無自覚攻め ハッピーエンド すれ違い">
@@ -860,6 +900,7 @@
           <span class="work-tag">すれ違い</span>
           </span>
         </div>
+<p class="work-comment">気弱な落ちこぼれアルファ × 気丈に振る舞う異端オメガ　鳥の羽を持つ亜人同士</p>
       </div>
 
       <div class="work-item" data-tags="ファンタジー 短編 年上受け 溺愛攻め ハッピーエンド">
@@ -873,6 +914,7 @@
           <span class="work-tag">ハッピーエンド</span>
           </span>
         </div>
+<p class="work-comment">泣き虫第二皇子 × 年上筋肉守備隊長　ちょっぴり中華風</p>
       </div>
 
       <div class="work-item" data-tags="ファンタジー 短編 人外受け 美人受け ハッピーエンド 神様">
@@ -887,6 +929,7 @@
           <span class="work-tag">神様</span>
           </span>
         </div>
+<p class="work-comment">紹介文</p>
       </div>
 
       <div class="work-item" data-tags="現代 短編 学生 平凡受け 天然受け 溺愛攻め 性描写なし ハッピーエンド">
@@ -903,6 +946,7 @@
           <span class="work-tag">ハッピーエンド</span>
           </span>
         </div>
+<p class="work-comment">じわじわ囲い込み系 × 勉強以外はからきしな箱入り</p>
       </div>
 
       <div class="work-item" data-tags="現代 短編 学生 天然受け 溺愛攻め ハッピーエンド すれ違い ラブコメ 攻め視点">
@@ -920,6 +964,7 @@
           <span class="work-tag">攻め視点</span>
           </span>
         </div>
+<p class="work-comment">溺愛幼馴染 × おバカなヤンキー</p>
       </div>
 
       <div class="work-item" data-tags="ファンタジー 短編 天然受け 溺愛攻め 切ない">
@@ -933,6 +978,7 @@
             <span class="work-tag">切ない</span>
           </span>
         </div>
+<p class="work-comment">第七王子 × 純粋な少年　童話風</p>
       </div>
 
       <div class="work-item" data-tags="ファンタジー 短編 人外受け 溺愛攻め 人外攻め メリーバッドエンド 主要人物が死ぬ（転生あり） 三角関係">
@@ -954,6 +1000,7 @@
  <span class="work-tag spoiler-tag matched-target">三角関係</span>
           </div>
         </div>
+<p class="work-comment">風変わりな魔族 × 真面目な天使</p>
       </div>
 
       <div class="work-item" data-tags="現代 短編 年上受け 溺愛攻め 切ない バッドエンド 死ネタ 主要人物が死ぬ（転生なし）">
@@ -975,7 +1022,9 @@
             <span class="work-tag spoiler-tag matched-target">主要人物が死ぬ（転生なし）</span>
           </div>
         </div>
+<p class="work-comment">真面目な青年 × ワケあり年上 </p>
       </div>
+
       <div class="work-item" data-tags="ファンタジー 短編 溺愛攻め 人外攻め ハッピーエンド 流血表現">
         <div class="work-main-row">
           <span class="work-title"><a href="https://www.alphapolis.co.jp/novel/793116329/258637555/episode/5808744" target="_blank">月に魅入られ</a></span>
@@ -993,6 +1042,7 @@
             <span class="work-tag spoiler-tag matched-target">流血表現</span>
           </div>
         </div>
+<p class="work-comment">魔王 × 勇者　最終決戦で駆け落ちしちゃったその後の話</p>
       </div>
 
       <div class="work-item" data-tags="ファンタジー 現代 短編 学生 切ない すれ違い 主要人物が死ぬ（転生あり）">
@@ -1013,6 +1063,7 @@
 <span class="work-tag spoiler-tag matched-target">主要人物が死ぬ（転生あり）</span>
           </div>
         </div>
+<p class="work-comment">クズ寄りの元友人 × 幸薄な蝶の少年</p>
       </div>
 
 
