@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>作品コード生成ツール（紹介文対応版）</title>
+  <style>
+    /* 元のデザインを継承 */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", "游明朝", Georgia, serif;
+      background: #faf8f5;
+      color: #2c2c2c;
+      padding: 32px 20px 80px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.2rem;
+      font-weight: normal;
+      letter-spacing: 0.15em;
+      color: #888;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    h2 {
+      font-size: 0.9rem;
+      font-weight: normal;
+      letter-spacing: 0.1em;
+      color: #999;
+      margin-bottom: 12px;
+      margin-top: 24px;
+    }
+
+    label {
+      font-size: 0.8rem;
+      color: #999;
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    input[type=text], textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d6cfc4;
+      background: #fff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: #2c2c2c;
+      margin-bottom: 16px;
+      border-radius: 4px;
+    }
+
+    textarea {
+      height: 80px;
+      resize: vertical;
+    }
+
+    /* タグ選択エリア */
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tag-item {
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border: 1px solid #d6cfc4;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fff;
+    }
+
+    .tag-item.active {
+      background: #d6cfc4;
+      color: #fff;
+    }
+
+    .tag-input-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .tag-input-group input { margin-bottom: 0; flex: 1; }
+
+    button.add-btn {
+      padding: 0 16px;
+      background: #888;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* 出力エリア */
+    .output-box {
+      margin-top: 40px;
+      position: relative;
+    }
+
+    pre {
+      background: #fdfcfb;
+      border: 1px solid #d6cfc4;
+      padding: 20px;
+      font-size: 0.8rem;
+      color: #555;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      line-height: 1.6;
+      border-radius: 4px;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: -30px;
+      right: 0;
+      font-size: 0.75rem;
+      color: #888;
+      cursor: pointer;
+      background: none;
+      border: none;
+      text-decoration: underline;
+    }
+
+    .copy-btn.copied { color: #6b8e23; text-decoration: none; }
+
+    .reset-btn {
+      display: block;
+      margin: 40px auto 0;
+      font-size: 0.75rem;
+      color: #999;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>WORKS CODE GENERATOR</h1>
+
+  <label>作品タイトル</label>
+  <input type="text" id="title" placeholder="作品名を入力">
+
+  <label>URL</label>
+  <input type="text" id="url" placeholder="https://...">
+
+  <label>紹介文（ひとことエリア）</label>
+  <textarea id="comment" placeholder="作品の短い紹介文を入力してください"></textarea>
+
+  <h2>通常タグ</h2>
+  <div id="normal-tags" class="tag-container"></div>
+  <div class="tag-input-group">
+    <input type="text" id="new-normal-tag" placeholder="新しいタグ名">
+    <button class="add-btn" onclick="addNormalTag()">追加</button>
+  </div>
+
+  <h2>ネタバレ要素タグ（⚠マークがつきます）</h2>
+  <div id="spoiler-tags" class="tag-container"></div>
+  <div class="tag-input-group">
+    <input type="text" id="new-spoiler-tag" placeholder="新しいネタバレタグ">
+    <button class="add-btn" onclick="addSpoilerTag()">追加</button>
+  </div>
+
+  <div class="output-box">
+    <button class="copy-btn" id="copy-btn" onclick="copyCode()">コピー</button>
+    <pre id="output">作品情報を入力するとコードが表示されます</pre>
+  </div>
+
+  <button class="reset-btn" onclick="resetAll()">全ての入力をリセット</button>
+
+  <script>
+    // 初期タグリスト
+    let normalTags = ["ファンタジー", "現代", "短編", "連載", "完結済", "ハッピーエンド"];
+    let spoilerTags = ["残酷な描写あり", "バッドエンド", "主要人物の欠損"];
+
+    const selNormal = new Set();
+    const selSpoiler = new Set();
+
+    function renderAll() {
+      renderTags("normal-tags", normalTags, selNormal, false);
+      renderTags("spoiler-tags", spoilerTags, selSpoiler, true);
+    }
+
+    function renderTags(containerId, tagList, selectedSet, isSpoiler) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+      tagList.forEach(tag => {
+        const div = document.createElement("div");
+        div.className = "tag-item" + (selectedSet.has(tag) ? " active" : "");
+        div.textContent = (isSpoiler ? "⚠ " : "# ") + tag;
+        div.onclick = () => {
+          if (selectedSet.has(tag)) selectedSet.delete(tag);
+          else selectedSet.add(tag);
+          renderAll();
+          updateOutput();
+        };
+        container.appendChild(div);
+      });
+    }
+
+    function updateOutput() {
+      const title = document.getElementById("title").value.trim() || "作品タイトル";
+      const url   = document.getElementById("url").value.trim() || "#";
+      const comment = document.getElementById("comment").value.trim();
+      
+      const normalArray = Array.from(selNormal);
+      const spoilerArray = Array.from(selSpoiler);
+      
+      // data-tags用の文字列（フィルタ用）
+      const dataTags = [...normalArray, ...spoilerArray].join(" ");
+
+      let code = `<div class="work-item" data-tags="${dataTags}">\n`;
+      code += `  <div class="work-main-row">\n`;
+      code += `    <span class="work-title"><a href="${url}" target="_blank">${title}</a></span>\n`;
+      code += `    <span class="work-tags">\n`;
+      
+      normalArray.forEach(t => {
+        code += `      <span class="work-tag"># ${t}</span>\n`;
+      });
+      
+      code += `    </span>\n`;
+      code += `  </div>\n`;
+
+      // ネタバレがある場合のみ生成
+      if (spoilerArray.length > 0) {
+        code += `\n  <div class="spoiler-container">\n`;
+        code += `    <div class="spoiler-toggle">＋ ネタバレ要素を確認する</div>\n`;
+        code += `    <div class="spoiler-content">\n`;
+        spoilerArray.forEach(t => {
+          code += `      <span class="work-tag spoiler-tag">⚠ ${t}</span>\n`;
+        });
+        code += `    </div>\n  </div>\n`;
+      }
+
+      // 紹介文がある場合のみ生成（点線の囲みクラスを適用）
+      if (comment) {
+        code += `\n  <p class="work-comment">\n    ${comment.replace(/\n/g, '<br>\n    ')}\n  </p>\n`;
+      }
+
+      code += `</div>`;
+
+      document.getElementById("output").textContent = code;
+    }
+
+    function addNormalTag() {
+      const input = document.getElementById("new-normal-tag");
+      const val = input.value.trim();
+      if (!val) return;
+      if (!normalTags.includes(val)) normalTags.push(val);
+      input.value = "";
+      renderAll();
+      updateOutput();
+    }
+
+    function addSpoilerTag() {
+      const input = document.getElementById("new-spoiler-tag");
+      const val = input.value.trim();
+      if (!val) return;
+      if (!spoilerTags.includes(val)) spoilerTags.push(val);
+      input.value = "";
+      renderAll();
+      updateOutput();
+    }
+
+    function copyCode() {
+      const text = document.getElementById("output").textContent;
+      if (text.includes("作品情報を入力")) return;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById("copy-btn");
+        btn.textContent = "コピーしました！";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.textContent = "コピー";
+          btn.classList.remove("copied");
+        }, 2000);
+      });
+    }
+
+    function resetAll() {
+      document.getElementById("title").value = "";
+      document.getElementById("url").value = "";
+      document.getElementById("comment").value = "";
+      selNormal.clear();
+      selSpoiler.clear();
+      renderAll();
+      updateOutput();
+    }
+
+    // イベントリスナー
+    document.getElementById("title").addEventListener("input", updateOutput);
+    document.getElementById("url").addEventListener("input", updateOutput);
+    document.getElementById("comment").addEventListener("input", updateOutput);
+    
+    // エンターキーでタグ追加
+    document.getElementById("new-normal-tag").addEventListener("keydown", e => { if (e.key === "Enter") addNormalTag(); });
+    document.getElementById("new-spoiler-tag").addEventListener("keydown", e => { if (e.key === "Enter") addSpoilerTag(); });
+
+    // 初期表示
+    renderAll();
+  </script>
+</body>
+</html>
