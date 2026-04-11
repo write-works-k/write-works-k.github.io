@@ -224,7 +224,10 @@
     <label>URL</label>
     <input type="url" id="url" placeholder="https://...">
     <label>紹介文</label>
-    <input type="text" id="comment" placeholder="例：〇〇 × △△ の関係性など">
+    <div style="display:flex; gap:8px; align-items:center; margin-bottom:14px;">
+      <input type="text" id="comment" placeholder="例：〇〇 × △△ の関係性など" style="margin-bottom:0; flex:1;">
+      <button onclick="insertFullwidthSpace()" style="padding:8px 12px; border:1px solid #d6cfc4; background:#faf8f5; color:#888; font-size:0.78rem; font-family:inherit; cursor:pointer; white-space:nowrap; flex-shrink:0;" title="全角スペースを挿入">全角スペース</button>
+    </div>
   </div>
 
   <div class="section">
@@ -277,7 +280,7 @@
       sekai:   ["ファンタジー","現代","異世界転移","異世界転生","オメガバース"],
       nagasa:  ["短編","長編"],
       cp:      ["学生","社会人","平凡受け","年上受け","人外受け","天然受け","美人受け","溺愛攻め","人外攻め","無自覚攻め"],
-      kikou:   ["性描写なし","ハッピーエンド","切ない","片想い","すれ違い","ラブコメ","攻め視点","触手","神様"]
+      kikou:   ["性描写なし","ハッピーエンド","切ない","片想い","すれ違い","ラブコメ","ほのぼの","攻め視点","触手","神様"]
     };
 
     const spoilerTags = [
@@ -377,6 +380,17 @@ ${comment ? `        <p class="work-comment">${comment}</p>` : ""}
       if (!spoilerTags.includes(val)) spoilerTags.push(val);
       input.value = "";
       renderAll();
+      updateOutput();
+    }
+
+    function insertFullwidthSpace() {
+      const input = document.getElementById("comment");
+      const start = input.selectionStart;
+      const end   = input.selectionEnd;
+      const val   = input.value;
+      input.value = val.slice(0, start) + "\u3000" + val.slice(end);
+      input.selectionStart = input.selectionEnd = start + 1;
+      input.focus();
       updateOutput();
     }
 
