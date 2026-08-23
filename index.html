@@ -218,6 +218,7 @@
       align-items: flex-start;
       padding: 48px 0;
       border-bottom: 1px solid #d6cfc4;
+      scroll-margin-top: 24px; /* 外部からのページ内リンクでジャンプした際の上余白 */
     }
 
     .book-card:first-child {
@@ -546,64 +547,37 @@
 
     <div class="book-list">
 
-      <!-- 作品1（新刊・上下巻） -->
-      <div class="book-card new-arrival new-arrival-volumes">
+      <!-- 作品1（新刊・1冊構成） -->
+      <div class="book-card new-arrival" id="akuma-haigyo">
         <span class="new-arrival-badge">新　刊</span>
-
-        <!-- 上巻 -->
-        <div class="volume-row">
-          <div class="book-cover">
-            <p class="volume-label">上巻(1)</p>
-            <img src="zenryaku1.jpg" alt="前略、これから世界滅ぼします 上巻 表紙">
-          </div>
-          <div class="book-info">
-            <h2 class="volume-series-title">前略、これから世界滅ぼします</h2>
-            <p class="publisher">ヴィオラ文庫 / 2025年</p>
-            <p class="synopsis"><span style="background: linear-gradient(transparent 50%, #f5deb3 50%);">恋を知らない冷徹な闇の精霊 × ひたむきな不幸系魔術師</span><br>
-――これは、二人が世界を滅ぼすまでの物語。<br>
-なにもかもが上手くいかず、勢い余って“闇の精霊”を喚び出すことにした魔術師ヴェナ。<br>
-召喚された闇の精霊「クロ」は、世界を滅ぼす協力をする代わりにヴェナに名と魔力、そして命を要求する。要求を呑み、彼にクロと名づけたヴェナだったが、魔力をもらうためだと彼に突然キスをされて……。<br>
-「おまえの魔力は美味いから好きだ」<br>
-何度も口づける彼の不器用な優しさに、ヴェナの心は次第に絆されていき――？</p>
-            <div class="buy-links">
-              <a href="https://piccoma.com/web/product/196683" target="_blank" class="buy-link">ピッコマ</a>
-              <a href="https://www.cmoa.jp/title/1101467990/" target="_blank" class="buy-link">シーモア</a>
-              <a href="https://amzn.to/4ds7wjA" target="_blank" class="buy-link">Amazon</a>
-              <a href="https://hb.afl.rakuten.co.jp/ichiba/47cb6127.9d9df13a.47cb6128.9332653d/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Frakutenkobo-ebooks%2F65ee2422f417383fbe2bc201b226f28c%2F&link_type=hybrid_url&ut=eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJoeWJyaWRfdXJsIiwic2l6ZSI6IjI0MHgyNDAiLCJuYW0iOjEsIm5hbXAiOiJyaWdodCIsImNvbSI6MSwiY29tcCI6ImRvd24iLCJwcmljZSI6MSwiYm9yIjoxLCJjb2wiOjEsImJidG4iOjEsInByb2QiOjAsImFtcCI6ZmFsc2V9" target="_blank" class="buy-link">楽天</a>
-
-            </div>
-          </div>
+        <div class="book-cover">
+          <img src="akumaha.jpg" alt="この溺愛は想定外！？異世界転生・転移BLアンソロジーコミック 表紙">
         </div>
-
-        <!-- 下巻 -->
-        <div class="volume-row">
-          <div class="book-cover">
-            <p class="volume-label">下巻(2)</p>
-            <img src="zenryaku2.jpg" alt="前略、これから世界滅ぼします 下巻 表紙">
-          </div>
-          <div class="book-info">
-            <p class="synopsis"><br>
-　↓ 特典情報 ↓<br>
-1、2巻どちらも加筆修正＆書き下ろしたっぷり！<br>
-1巻：ヴェナを看病するクロのほろ甘<span style="background: linear-gradient(transparent 50%, #ffebcd 50%);">書き下ろし番外編</span>「やさしい王様」収録<br>
-2巻：<span style="background: linear-gradient(transparent 50%, #ffebcd 50%);">投稿サイト掲載番外編</span>「精霊の性事情」「闇の精霊子育て奮闘記」、一万字超の<span style="background: linear-gradient(transparent 50%, #ffebcd 50%);">本編後書き下ろしストーリー</span>「光精霊危機一髪」収録、その他加筆多数
-            </p>
-            <div class="buy-links">
-<a href="https://piccoma.com/web/product/196683" target="_blank" class="buy-link">ピッコマ</a>
-              <a href="https://www.cmoa.jp/title/1101467990/" target="_blank" class="buy-link">シーモア</a>
-              <a href="https://amzn.to/4sMdb8T" target="_blank" class="buy-link">Amazon</a>
-              <a href="https://hb.afl.rakuten.co.jp/ichiba/47cb6127.9d9df13a.47cb6128.9332653d/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Frakutenkobo-ebooks%2F0d970c611f1433cc98c173785f4a2a65%2F&link_type=hybrid_url&ut=eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJoeWJyaWRfdXJsIiwic2l6ZSI6IjI0MHgyNDAiLCJuYW0iOjEsIm5hbXAiOiJyaWdodCIsImNvbSI6MSwiY29tcCI6ImRvd24iLCJwcmljZSI6MSwiYm9yIjoxLCJjb2wiOjEsImJidG4iOjEsInByb2QiOjAsImFtcCI6ZmFsc2V9" target="_blank" class="buy-link">楽天</a>
-
-            </div>
+        <div class="book-info">
+          <h2>悪魔は廃業です！〜異世界転生チートは隠して地味に生きる〜</h2>
+          <p class="publisher">竹書房 / 2026年</p>
+          <p class="synopsis">><span style="background: linear-gradient(transparent 50%, #f5deb3 50%);">年下執着溺愛伯爵令息 × 前世持ち有能だけど地味を装う男爵令息</span><br>
+            転生者のミケルは、前世の記憶と強い魔力で無双する学生時代を過ごしたが……<br>
+あまりに強すぎたせいで「赤髪の悪魔」なんてあだ名をつけられ、暗黒の中等学校時代を過ごすことに。<br>
+高等学院進学と同時に地味な見た目に変え、魔力も押さえて静かに暮らしたい…そんなミケルに、後輩の伯爵子息ナイアスが絡んでくる。<br>
+ミケルは無事に地味な学院生活を送ることができるのか────。<br>
+「<span style="background: linear-gradient(transparent 50%, #ffebcd 50%);"></span>この溺愛は想定外！？異世界転生・転移BLアンソロジーコミック</span>」内の1タイトルとして、書き下ろし短編をコミカライズ！<br>
+小説版とコミカライズ版を比べて読んでみるのも◎
+          </p>
+          <div class="buy-links">
+            <a href="https://amzn.to/45K7KNV" target="_blank" class="buy-link">Amazon</a>
+            <a href="https://hb.afl.rakuten.co.jp/ichiba/47cb6127.9d9df13a.47cb6128.9332653d/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Frakutenkobo-ebooks%2Fd7f002d59a58388181b1b9674b459d61%2F&link_type=hybrid_url&ut=eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJoeWJyaWRfdXJsIiwic2l6ZSI6IjI0MHgyNDAiLCJuYW0iOjEsIm5hbXAiOiJyaWdodCIsImNvbSI6MSwiY29tcCI6ImRvd24iLCJwcmljZSI6MSwiYm9yIjoxLCJjb2wiOjEsImJidG4iOjEsInByb2QiOjAsImFtcCI6ZmFsc2V9" target="_blank" class="buy-link">楽天</a>
+            <a href="https://comic.pixiv.net/works/13593" target="_blank" class="buy-link">Pixivコミック</a>
+            <!--<a href="#" target="_blank" class="buy-link">楽天</a>-->
           </div>
         </div>
       </div>
 
       <!-- 作品2・3（2段） -->
       <div class="book-group">
-        <div class="book-card">
+        <div class="book-card" id="karato-omega">
           <div class="book-cover">
-<img src="karatou.jpg" alt="辛党のオメガ 表紙">
+            <img src="karatou.jpg" alt="辛党のオメガ 表紙">
           </div>
           <div class="book-info">
             <h2>辛党のオメガ</h2>
@@ -624,7 +598,7 @@
             </div>
           </div>
         </div>
-        <div class="book-card">
+        <div class="book-card" id="mobu-danshi">
           <div class="book-cover">
 <img src="mobdanshi.jpg" alt="乙女ゲームのモブ男子はイケメン騎士様と恋するヒマがない！ 表紙">
           </div>
@@ -649,7 +623,7 @@
 
       <!-- 作品4・5（2段） -->
       <div class="book-group">
-        <div class="book-card">
+        <div class="book-card" id="akuyaku-diet">
           <div class="book-cover">
 <img src="akuyakukei.jpg" alt="【急募】異世界で溺愛された時の対処法♂BLアンソロジー 表紙">
           </div>
@@ -673,6 +647,56 @@
           </div>
         </div>
       </div>
+      </div>
+
+      <!-- 作品6（前略、これから世界滅ぼします・1巻/2巻 横並びレイアウト） -->
+      <div class="book-card" id="zenryaku">
+        <div class="book-covers-side">
+          <div class="book-cover">
+            <p class="volume-label">1巻</p>
+            <img src="zenryaku1.jpg" alt="前略、これから世界滅ぼします 1巻 表紙">
+          </div>
+          <div class="book-cover">
+            <p class="volume-label">2巻</p>
+            <img src="zenryaku2.jpg" alt="前略、これから世界滅ぼします 2巻 表紙">
+          </div>
+        </div>
+        <div class="book-info">
+          <h2>前略、これから世界滅ぼします 1巻/2巻</h2>
+          <p class="publisher">ヴィオラ文庫 / 2025年</p>
+          <p class="synopsis"><span style="background: linear-gradient(transparent 50%, #f5deb3 50%);">恋を知らない冷徹な闇の精霊 × ひたむきな不幸系魔術師</span><br>
+――これは、二人が世界を滅ぼすまでの物語。<br>
+なにもかもが上手くいかず、勢い余って“闇の精霊”を喚び出すことにした魔術師ヴェナ。<br>
+召喚された闇の精霊「クロ」は、世界を滅ぼす協力をする代わりにヴェナに名と魔力、そして命を要求する。要求を呑み、彼にクロと名づけたヴェナだったが、魔力をもらうためだと彼に突然キスをされて……。<br>
+「おまえの魔力は美味いから好きだ」<br>
+何度も口づける彼の不器用な優しさに、ヴェナの心は次第に絆されていき――？<br>
+<br>
+　◆ 特典情報 ◆<br>
+1、2巻どちらも加筆修正＆書き下ろしたっぷり！<br>
+1巻：ヴェナを看病するクロのほろ甘<span style="background: linear-gradient(transparent 50%, #ffebcd 50%);">書き下ろし番外編</span>「やさしい王様」収録<br>
+2巻：<span style="background: linear-gradient(transparent 50%, #ffebcd 50%);">投稿サイト掲載番外編</span>「精霊の性事情」「闇の精霊子育て奮闘記」、一万字超の<span style="background: linear-gradient(transparent 50%, #ffebcd 50%);">本編後書き下ろしストーリー</span>「光精霊危機一髪」収録、その他加筆多数</p>
+
+          <div class="buy-links-volumes">
+            <div class="buy-link-group">
+              <p class="buy-link-label">購入先リンク 1巻</p>
+              <div class="buy-links">
+                <a href="https://piccoma.com/web/product/196683" target="_blank" class="buy-link">ピッコマ</a>
+                <a href="https://www.cmoa.jp/title/1101467990/" target="_blank" class="buy-link">シーモア</a>
+                <a href="https://amzn.to/4ds7wjA" target="_blank" class="buy-link">Amazon</a>
+                <a href="https://hb.afl.rakuten.co.jp/ichiba/47cb6127.9d9df13a.47cb6128.9332653d/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Frakutenkobo-ebooks%2F65ee2422f417383fbe2bc201b226f28c%2F&link_type=hybrid_url&ut=eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJoeWJyaWRfdXJsIiwic2l6ZSI6IjI0MHgyNDAiLCJuYW0iOjEsIm5hbXAiOiJyaWdodCIsImNvbSI6MSwiY29tcCI6ImRvd24iLCJwcmljZSI6MSwiYm9yIjoxLCJjb2wiOjEsImJidG4iOjEsInByb2QiOjAsImFtcCI6ZmFsc2V9" target="_blank" class="buy-link">楽天</a>
+              </div>
+            </div>
+            <div class="buy-link-group">
+              <p class="buy-link-label">購入先リンク 2巻</p>
+              <div class="buy-links">
+                <a href="https://piccoma.com/web/product/196683" target="_blank" class="buy-link">ピッコマ</a>
+                <a href="https://www.cmoa.jp/title/1101467990/" target="_blank" class="buy-link">シーモア</a>
+                <a href="https://amzn.to/4sMdb8T" target="_blank" class="buy-link">Amazon</a>
+                <a href="https://hb.afl.rakuten.co.jp/ichiba/47cb6127.9d9df13a.47cb6128.9332653d/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Frakutenkobo-ebooks%2F0d970c611f1433cc98c173785f4a2a65%2F&link_type=hybrid_url&ut=eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJoeWJyaWRfdXJsIiwic2l6ZSI6IjI0MHgyNDAiLCJuYW0iOjEsIm5hbXAiOiJyaWdodCIsImNvbSI6MSwiY29tcCI6ImRvd24iLCJwcmljZSI6MSwiYm9yIjoxLCJjb2wiOjEsImJidG4iOjEsInByb2QiOjAsImFtcCI6ZmFsc2V9" target="_blank" class="buy-link">楽天</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
 <p style="text-align: right; font-size: 0.7rem; margin-top: 16px; color: #888;">
